@@ -25,9 +25,9 @@ Para executar os testes:
 ```bash
 dotnet test --verbosity normal
 
-- **EventManagement.Domain**: Camada de domínio com entidades e regras de negócio
-- **EventManagement.Console**: Interface de linha de comando para demonstração
-- **EventManagement.Domain.Tests**: Testes unitários para validação do domínio
+- EventManagement.Domain: Camada de domínio com entidades e regras de negócio
+- EventManagement.Console: Interface de linha de comando para demonstração
+- EventManagement.Domain.Tests: Testes unitários para validação do domínio
 
 📚 Conceitos Aplicados
 ✅ Guard Clauses para validação defensiva
