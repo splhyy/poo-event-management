@@ -1,0 +1,13 @@
+C:\Users\shael\Documents\poo-event-management\poo-event-management\src\EventManagement.Domain\bin\Debug\net9.0\EventManagement.Domain.deps.json
+C:\Users\shael\Documents\poo-event-management\poo-event-management\src\EventManagement.Domain\bin\Debug\net9.0\EventManagement.Domain.dll
+C:\Users\shael\Documents\poo-event-management\poo-event-management\src\EventManagement.Domain\bin\Debug\net9.0\EventManagement.Domain.pdb
+C:\Users\shael\Documents\poo-event-management\poo-event-management\src\EventManagement.Domain\bin\Debug\net9.0\EventManagement.Domain.xml
+C:\Users\shael\Documents\poo-event-management\poo-event-management\src\EventManagement.Domain\obj\Debug\net9.0\EventManagement.Domain.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\shael\Documents\poo-event-management\poo-event-management\src\EventManagement.Domain\obj\Debug\net9.0\EventManagement.Domain.AssemblyInfoInputs.cache
+C:\Users\shael\Documents\poo-event-management\poo-event-management\src\EventManagement.Domain\obj\Debug\net9.0\EventManagement.Domain.AssemblyInfo.cs
+C:\Users\shael\Documents\poo-event-management\poo-event-management\src\EventManagement.Domain\obj\Debug\net9.0\EventManagement.Domain.csproj.CoreCompileInputs.cache
+C:\Users\shael\Documents\poo-event-management\poo-event-management\src\EventManagement.Domain\obj\Debug\net9.0\EventManagement.Domain.dll
+C:\Users\shael\Documents\poo-event-management\poo-event-management\src\EventManagement.Domain\obj\Debug\net9.0\refint\EventManagement.Domain.dll
+C:\Users\shael\Documents\poo-event-management\poo-event-management\src\EventManagement.Domain\obj\Debug\net9.0\EventManagement.Domain.xml
+C:\Users\shael\Documents\poo-event-management\poo-event-management\src\EventManagement.Domain\obj\Debug\net9.0\EventManagement.Domain.pdb
+C:\Users\shael\Documents\poo-event-management\poo-event-management\src\EventManagement.Domain\obj\Debug\net9.0\ref\EventManagement.Domain.dll
