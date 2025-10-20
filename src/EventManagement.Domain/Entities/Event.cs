@@ -51,6 +51,10 @@ public class Event
         set => _notes = value ?? string.Empty;
     }
 
+    // NOVO: Coleção encapsulada de palestrantes adicionais
+    private readonly List<Speaker> _additionalSpeakers = new();
+    public IReadOnlyList<Speaker> AdditionalSpeakers => _additionalSpeakers.AsReadOnly();
+
     public Event(int eventId, string title, DateTime eventDate, TimeSpan duration)
     {
         
@@ -73,7 +77,7 @@ public class Event
 
     public void SetEventCode(string code)
     {
-        
+        // DisallowNull - não aceita null no setter
         Guard.AgainstNull(ref code!, nameof(code));
         _eventCode = code.Trim();
     }
@@ -97,7 +101,39 @@ public class Event
         MainSpeaker = speaker;
     }
 
-        [MemberNotNull(nameof(_venue))]
+    // NOVO: Método para adicionar palestrante à coleção
+    public void AddSpeaker(Speaker speaker)
+    {
+        Guard.AgainstNull(ref speaker!, nameof(speaker));
+        
+        if (_additionalSpeakers.Contains(speaker))
+            throw new InvalidOperationException("Speaker already added to this event.");
+            
+        _additionalSpeakers.Add(speaker);
+    }
+
+    // NOVO: Método para remover palestrante da coleção
+    public bool RemoveSpeaker(Speaker speaker)
+    {
+        Guard.AgainstNull(ref speaker!, nameof(speaker));
+        return _additionalSpeakers.Remove(speaker);
+    }
+
+    // NOVO: Método para verificar conflitos de agenda
+    public bool HasScheduleConflictWith(Event otherEvent)
+    {
+        Guard.AgainstNull(ref otherEvent!, nameof(otherEvent));
+        
+        // Dois eventos têm conflito se:
+        // 1. São no mesmo local
+        // 2. Suas datas/horários se sobrepõem
+        return Venue.Equals(otherEvent.Venue) && 
+               EventDate < otherEvent.EventDate.Add(otherEvent.Duration) && 
+               otherEvent.EventDate < EventDate.Add(Duration);
+    }
+
+    
+    [MemberNotNull(nameof(_venue))]
     private void EnsureVenue()
     {
         _venue ??= Venue.Default;
