@@ -66,6 +66,7 @@ public class EventSpecs
         // Act & Assert
         Assert.Throws<ArgumentException>(() => 
             new Event(1, "Tech Conference", _futureDate, TimeSpan.FromMinutes(29)));
+        Assert.Equal("eventDate", exception.ParaName);
     }
 
     [Fact]
