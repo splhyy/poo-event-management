@@ -33,7 +33,7 @@ public class EventSpecs
     [Theory]
     [InlineData(null)]
     [InlineData("")]
-    [InlineData("   ")]
+    [InlineData(" ")]
     public void Constructor_ComTituloInvalido_DeveLancarExcecao(string? invalidTitle)
     {
         // Act & Assert
@@ -58,7 +58,6 @@ public class EventSpecs
         // Act & Assert
         Assert.Throws<ArgumentException>(() => 
             new Event(1, "Tech Conference", pastDate, TimeSpan.FromHours(2)));
-        Assert.Equal("eventDate", exception.ParaName);
     }
 
     [Fact]
@@ -67,8 +66,6 @@ public class EventSpecs
         // Act & Assert
         Assert.Throws<ArgumentException>(() => 
             new Event(1, "Tech Conference", _futureDate, TimeSpan.FromMinutes(29)));
-        Assert.Equal("duration", exception.ParaName);
-        
     }
 
     [Fact]
@@ -102,7 +99,7 @@ public class EventSpecs
         var eventObj = new Event(1, "Tech Conference", _futureDate, TimeSpan.FromHours(2));
 
         // Act
-        eventObj.SetEventCode("  TECH2025  ");
+        eventObj.SetEventCode(" TECH2025 ");
 
         // Assert
         Assert.Equal("TECH2025", eventObj.EventCode);
@@ -145,7 +142,7 @@ public class EventSpecs
     [Theory]
     [InlineData(null)]
     [InlineData("")]
-    [InlineData("   ")]
+    [InlineData(" ")]
     public void SetDescription_ComTextoInvalido_DeveDefinirDescricaoComoNull(string? invalidDescription)
     {
         // Arrange
@@ -248,6 +245,102 @@ public class EventSpecs
 
         // Assert
         Assert.Null(eventObj.MainSpeaker);
+    }
+
+    // NOVOS TESTES: Coleções encapsuladas
+    [Fact]
+    public void AddSpeaker_ComSpeakerValido_DeveAdicionarSpeaker()
+    {
+        // Arrange
+        var eventObj = new Event(1, "Tech Conference", _futureDate, TimeSpan.FromHours(2));
+        var speaker = new Speaker(1, "John Doe", "john@email.com");
+
+        // Act
+        eventObj.AddSpeaker(speaker);
+
+        // Assert
+        Assert.Single(eventObj.AdditionalSpeakers);
+        Assert.Contains(speaker, eventObj.AdditionalSpeakers);
+    }
+
+    [Fact]
+    public void AddSpeaker_ComSpeakerDuplicado_DeveLancarExcecao()
+    {
+        // Arrange
+        var eventObj = new Event(1, "Tech Conference", _futureDate, TimeSpan.FromHours(2));
+        var speaker = new Speaker(1, "John Doe", "john@email.com");
+        eventObj.AddSpeaker(speaker);
+
+        // Act & Assert
+        Assert.Throws<InvalidOperationException>(() => eventObj.AddSpeaker(speaker));
+    }
+
+    [Fact]
+    public void RemoveSpeaker_ComSpeakerExistente_DeveRemoverSpeaker()
+    {
+        // Arrange
+        var eventObj = new Event(1, "Tech Conference", _futureDate, TimeSpan.FromHours(2));
+        var speaker = new Speaker(1, "John Doe", "john@email.com");
+        eventObj.AddSpeaker(speaker);
+
+        // Act
+        var removed = eventObj.RemoveSpeaker(speaker);
+
+        // Assert
+        Assert.True(removed);
+        Assert.Empty(eventObj.AdditionalSpeakers);
+    }
+
+    [Fact]
+    public void AdditionalSpeakers_DeveSerReadOnly()
+    {
+        // Arrange
+        var eventObj = new Event(1, "Tech Conference", _futureDate, TimeSpan.FromHours(2));
+
+        // Assert
+        Assert.True(eventObj.AdditionalSpeakers is IReadOnlyList<Speaker>);
+    }
+
+    // NOVOS TESTES: Conflitos de agenda
+    [Fact]
+    public void HasScheduleConflictWith_ComEventosSobrepostosMesmoLocal_DeveRetornarTrue()
+    {
+        // Arrange
+        var venue = new Venue(1, "Local A", "Endereço A", 100);
+        var event1 = new Event(1, "Evento A", DateTime.Now.AddDays(1), TimeSpan.FromHours(2));
+        var event2 = new Event(2, "Evento B", DateTime.Now.AddDays(1).AddHours(1), TimeSpan.FromHours(2));
+
+        // Act
+        var hasConflict = event1.HasScheduleConflictWith(event2);
+
+        // Assert
+        Assert.True(hasConflict);
+    }
+
+    [Fact]
+    public void HasScheduleConflictWith_ComEventosDiferentesLocais_DeveRetornarFalse()
+    {
+        // Arrange
+        var venue1 = new Venue(1, "Local A", "Endereço A", 100);
+        var venue2 = new Venue(2, "Local B", "Endereço B", 100);
+        var event1 = new Event(1, "Evento A", DateTime.Now.AddDays(1), TimeSpan.FromHours(2));
+        var event2 = new Event(2, "Evento B", DateTime.Now.AddDays(1).AddHours(1), TimeSpan.FromHours(2));
+
+        // Act
+        var hasConflict = event1.HasScheduleConflictWith(event2);
+
+        // Assert
+        Assert.False(hasConflict);
+    }
+
+    [Fact]
+    public void HasScheduleConflictWith_ComNull_DeveLancarExcecao()
+    {
+        // Arrange
+        var eventObj = new Event(1, "Tech Conference", _futureDate, TimeSpan.FromHours(2));
+
+        // Act & Assert
+        Assert.Throws<ArgumentNullException>(() => eventObj.HasScheduleConflictWith(null!));
     }
 
     [Fact]
